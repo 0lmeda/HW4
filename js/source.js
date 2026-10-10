@@ -134,9 +134,12 @@ for(let i = 0; i<albumIds.length; i++){
     albums[i].querySelector('img').src = album.images[0].url;
     albums[i].querySelector('h3').textContent = album.name;
     //Instructions are asking to use convertMStosec function however, the album.release_data shows some like 2024-10-12. If I use it, got some like NaNa
-    albums[i].querySelector('p').textContent =  `${(album.release_date.substring(0,4))}  ${album.album_type}`;;
+    albums[i].querySelector('p').textContent =  `${(album.release_date.substring(0,4))}  ${album.album_type}`;
+    };
+    document.querySelector('.player img').src = track1.album.images[0].url;
+    document.querySelector('.player strong').textContent = track1.name;
+    document.querySelector('.player span').textContent = artist.name;
 
-}
 
 }
 load();
