@@ -14,11 +14,16 @@ function convertMsToMinSec(ms) {
 
 // IDs and secret token should come from Spotify
 localStorage.setItem("artist_id", "6XkjpgcEsYab502Vr1bBeW");
-localStorage.setItem("access_token", "BQDYn3wEw5fIZFD_Wst59tIK0JYpr6kKiQ8EAUJp5ZNfD7_-1WBA3k6w8lVR7alIXusROSilB0whTpRtTv20ogWqh1Zdygwq-EXnReGxeeIC6zXgPKnIkmzlJVCr8iIRWe1_IJSxrFyo");
+localStorage.setItem("access_token", "BQBR_WC6dMz7oh2qZDNyO8PQvY4yXytdPX0xoOxva7HEkHy5mq5uVJKTN9pc_DQjI9mCXi3M3Ea_GnKCrME6osdjF3npDPouhB2Z9QwL4tHUD0xPPsZxVcLhN-0z4bf0rK5gVDRzUWJi");
 localStorage.setItem("track_id_1", "1PREzVLuDT6PSE9sej4wnV");
 localStorage.setItem("track_id_2", "3D24ErT1MMmUfXWotSj2A2");
 localStorage.setItem("track_id_3", "34vXRJ2bCSFiZKQzVUYVOb");
 
+
+localStorage.setItem("album_id_1", "5utxE1ImIDJFXRHf137hoy");
+localStorage.setItem("album_id_2", "2aTxD6We9GbBFXi3oKoPat");
+localStorage.setItem("album_id_3", "1rQaw35QueiDUvAhvTOWZi");
+localStorage.setItem("album_id_4", "3fsVOb8vnAjEaxfuh5Kqdd");
 
 async function load(){
     
@@ -104,6 +109,35 @@ thirdTrack.querySelector('.track-title').textContent = track3.name;
 thirdTrack.querySelector('.track-album').textContent = track3.album.name;
 thirdTrack.querySelector('.track-number').textContent = track3.track_number;
 thirdTrack.querySelector('.track-duration').textContent = convertMsToMinSec(track3.duration_ms);
+
+let albums = document.querySelectorAll('.album-card');
+let albumIds = [
+    localStorage.getItem("album_id_1"),
+    localStorage.getItem("album_id_2"),
+    localStorage.getItem("album_id_3"),
+    localStorage.getItem("album_id_4")
+];
+for(let i = 0; i<albumIds.length; i++){
+
+        const response = await fetch(
+        `https://api.spotify.com/v1/albums/${albumIds[i]}`,
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }
+        );
+
+
+    const album = await response.json();
+
+    albums[i].querySelector('img').src = album.images[0].url;
+    albums[i].querySelector('h3').textContent = album.name;
+    //Instructions are asking to use convertMStosec function however, the album.release_data shows some like 2024-10-12. If I use it, got some like NaNa
+    albums[i].querySelector('p').textContent =  `${(album.release_date.substring(0,4))}  ${album.album_type}`;;
+
+}
+
 }
 load();
 
